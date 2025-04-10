@@ -10,6 +10,8 @@ typing-extensions==4.8.0
 click==8.1.8
 h11==0.14.0
 MarkupSafe==3.0.2
+setuptools==68.2.2
+wheel==0.41.2
 requests==2.31.0
 geopy==2.4.0
 pandas==2.0.3

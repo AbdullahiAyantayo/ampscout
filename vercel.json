@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "main.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python@3.9"
     },
     {
       "src": "static/**",
@@ -22,5 +22,10 @@
   ],
   "env": {
     "PYTHONPATH": "."
+  },
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9"
+    }
   }
 } 
