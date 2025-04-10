@@ -3,6 +3,7 @@
   "framework": "fastapi",
   "buildCommand": "pip install -r requirements.txt",
   "python": {
-    "version": "3.9.18"
+    "version": "3.9.18",
+    "runtime": "python3.9"
   }
 } 
