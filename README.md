@@ -13,8 +13,8 @@ A web application for identifying and ranking potential EV charging station loca
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ev-charging-site-selection.git
-cd ev-charging-site-selection
+git clone https://github.com/AbdullahiAyantayo/ampscout.git
+cd ampscout
 ```
 
 2. Set up Python environment:
@@ -43,58 +43,73 @@ uvicorn main:app --reload
 
 ## Deployment to Vercel
 
+### Prerequisites
+- Vercel account
+- GitHub account
+- Node.js installed
+- Python installed
+
+### Steps
+
 1. Install Vercel CLI:
 ```bash
 npm install -g vercel
 ```
 
-2. Create a `vercel.json` file in your project root:
-```json
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "main.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "static/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/main.py"
-    }
-  ]
-}
+2. Login to Vercel:
+```bash
+vercel login
 ```
 
-3. Deploy to Vercel:
+3. Deploy the application:
 ```bash
 vercel
 ```
 
-4. Follow the prompts to complete the deployment:
-   - Set up your project
-   - Link to your GitHub repository
-   - Configure environment variables if needed
+4. Follow the prompts:
+   - Select your scope (personal account or organization)
+   - Choose to create a new project
+   - Enter project name (e.g., "ampscout")
+   - Use current directory (press Enter)
+   - Select "Other" for framework preset
+   - Use default settings (press Enter)
 
-5. After deployment, Vercel will provide you with a URL for your application
+5. Environment Variables:
+   - Go to Vercel Dashboard
+   - Select your project
+   - Go to Settings > Environment Variables
+   - Add variables from .env.example
 
-## Environment Variables
+6. Automatic Deployments:
+   - Go to Vercel Dashboard
+   - Select your project
+   - Go to Settings > Git
+   - Connect your GitHub repository
+   - Enable automatic deployments
 
-Create a `.env` file in your project root with the following variables:
-```
-# API Configuration
-API_HOST=0.0.0.0
-API_PORT=8000
-```
+### Vercel Configuration Files
+
+1. `vercel.json` - Main configuration file
+2. `vercel-python.json` - Python-specific settings
+3. `requirements.txt` - Python dependencies
+4. `.env.example` - Example environment variables
+
+### Troubleshooting
+
+1. Build Fails:
+   - Check Python version (Vercel uses Python 3.9)
+   - Verify all dependencies in requirements.txt
+   - Check build logs in Vercel dashboard
+
+2. Static Files Not Loading:
+   - Verify static file paths in vercel.json
+   - Check if files are included in deployment
+   - Clear browser cache
+
+3. API Errors:
+   - Check environment variables
+   - Verify CORS settings
+   - Check server logs in Vercel dashboard
 
 ## Contributing
 
