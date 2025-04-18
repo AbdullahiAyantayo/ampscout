@@ -8,11 +8,23 @@ from services.scoring import PropertyScorer
 from typing import List, Dict, Optional
 import os
 import json
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import uvicorn
 
 app = FastAPI(
-    title="EV Charging Site Selection API",
+    title="AmpScout API",
     description="API for identifying and ranking potential EV charging station locations",
     version="1.0.0"
+)
+
+# CORS middleware configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Set up templates and static files
@@ -148,6 +160,21 @@ SAMPLE_SITES = [
     }
 ]
 
+# Models
+class Site(BaseModel):
+    id: str
+    latitude: float
+    longitude: float
+    name: str
+    score: float
+    status: str
+
+class DashboardStats(BaseModel):
+    totalSites: int
+    highRoiSites: int
+    readyForReview: int
+    activeProjects: int
+
 @app.get("/")
 async def home(request: Request):
     """Render the home page"""
@@ -196,4 +223,35 @@ async def get_potential_sites(
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy"} 
+    return {"status": "healthy"}
+
+# Routes
+@app.get("/api/stats/dashboard", response_model=DashboardStats)
+async def get_dashboard_stats():
+    # This would typically come from a database
+    return {
+        "totalSites": 150,
+        "highRoiSites": 45,
+        "readyForReview": 12,
+        "activeProjects": 8
+    }
+
+@app.get("/api/sites", response_model=List[Site])
+async def get_sites():
+    # This would typically come from a database
+    return [
+        {
+            "id": "1",
+            "latitude": 42.3314,
+            "longitude": -83.0458,
+            "name": "Downtown Detroit Location",
+            "score": 85,
+            "status": "available"
+        }
+    ]
+
+# Serve static files
+app.mount("/", StaticFiles(directory="dist", html=True))
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True) 

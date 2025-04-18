@@ -1,124 +1,126 @@
-# EV Charging Site Selection
+# AmpScout - EV Charger Site Selection Platform
 
-A web application for identifying and ranking potential EV charging station locations in Detroit, MI.
+AmpScout is a sophisticated platform designed to streamline and optimize the process of selecting sites for EV charging stations. By leveraging comprehensive data analysis and advanced algorithms, AmpScout helps stakeholders make informed decisions about where to place charging infrastructure.
 
-## Features
+## Key Features
 
-- Interactive map view of potential sites
-- Filter sites by property type, zoning, and lot size
-- Detailed site information including suitability scores
-- Responsive design for desktop and mobile
+### 1. Data Aggregation & Ingestion
 
-## Local Development
+#### Real Estate Integration
+- Commercial real estate listing services integration (LoopNet, Crexi)
+- Automated property availability tracking
+- Detailed property specifications and analytics
 
-1. Clone the repository:
-```bash
-git clone https://github.com/AbdullahiAyantayo/ampscout.git
-cd ampscout
-```
+#### EV Market Intelligence
+- EV registration heatmaps by geographic area
+- State DMV data integration
+- Population density and demographic analysis
 
-2. Set up Python environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
+#### Traffic Analytics
+- Real-time traffic data integration (INRIX, HERE Technologies)
+- Foot traffic analysis and patterns
+- Historical traffic trend analysis
 
-3. Install Node.js dependencies:
-```bash
-npm install
-```
+#### Infrastructure Assessment
+- Utility grid capacity data
+- Real-time grid load monitoring
+- Infrastructure upgrade requirements
 
-4. Build frontend assets:
-```bash
-npm run build
-```
+#### Regulatory Compliance
+- Comprehensive zoning database
+- Municipal permitting regulations
+- Automated compliance checking
 
-5. Start the development server:
-```bash
-uvicorn main:app --reload
-```
+#### Financial Incentives
+- Federal incentive programs database
+- State-level incentive tracking
+- Local utility incentive programs
+- Automated incentive matching
 
-6. Open http://localhost:8000 in your browser
+#### Land Parcel Analysis
+- Detailed parcel data integration
+- Property ownership information
+- Zoning classifications
+- GIS integration
 
-## Deployment to Vercel
+### 2. ROI Ranking Algorithm
 
-### Prerequisites
-- Vercel account
-- GitHub account
-- Node.js installed
-- Python installed
+#### Customizable Parameters
+- Adjustable charging rates
+- Customizable utilization rates
+- Variable electricity costs
+- Flexible construction cost modeling
 
-### Steps
+#### Financial Analysis
+- Comprehensive ROI calculations
+- Payback period analysis
+- Net Present Value (NPV) computation
+- Revenue projections
 
-1. Install Vercel CLI:
-```bash
-npm install -g vercel
-```
+#### Risk Assessment
+- Sensitivity analysis tools
+- Parameter impact evaluation
+- Risk factor modeling
+- Market condition analysis
 
-2. Login to Vercel:
-```bash
-vercel login
-```
+### 3. "Shovel-Ready" Site Pack Generator
 
-3. Deploy the application:
-```bash
-vercel
-```
+#### Documentation Automation
+- Site plan generation
+- Electrical plan creation
+- ADA compliance reporting
+- Required document compilation
 
-4. Follow the prompts:
-   - Select your scope (personal account or organization)
-   - Choose to create a new project
-   - Enter project name (e.g., "ampscout")
-   - Use current directory (press Enter)
-   - Select "Other" for framework preset
-   - Use default settings (press Enter)
+#### Technical Design
+- CAD layout automation
+- Charging station placement optimization
+- Technical specification generation
+- Infrastructure requirement analysis
 
-5. Environment Variables:
-   - Go to Vercel Dashboard
-   - Select your project
-   - Go to Settings > Environment Variables
-   - Add variables from .env.example
+#### Legal Documentation
+- Digital LOI templates
+- Customizable lease agreements
+- Property owner communication tools
+- Legal requirement compliance
 
-6. Automatic Deployments:
-   - Go to Vercel Dashboard
-   - Select your project
-   - Go to Settings > Git
-   - Connect your GitHub repository
-   - Enable automatic deployments
+#### Permitting Support
+- Location-based permit checklists
+- Required documentation tracking
+- Submission requirement verification
+- Timeline estimation
 
-### Vercel Configuration Files
+#### Utility Integration
+- Automated feasibility reports
+- Grid connection analysis
+- Power requirement calculations
+- Infrastructure upgrade assessments
 
-1. `vercel.json` - Main configuration file
-2. `vercel-python.json` - Python-specific settings
-3. `requirements.txt` - Python dependencies
-4. `.env.example` - Example environment variables
+### 4. Landlord Matchmaking
 
-### Troubleshooting
+#### Property Owner Engagement
+- Comprehensive property owner database
+- Automated outreach system
+- Communication tracking
+- Response management
 
-1. Build Fails:
-   - Check Python version (Vercel uses Python 3.9)
-   - Verify all dependencies in requirements.txt
-   - Check build logs in Vercel dashboard
+#### Negotiation Support
+- Lease term templates
+- Rate comparison tools
+- Market analysis integration
+- Term optimization suggestions
 
-2. Static Files Not Loading:
-   - Verify static file paths in vercel.json
-   - Check if files are included in deployment
-   - Clear browser cache
+## Getting Started
 
-3. API Errors:
-   - Check environment variables
-   - Verify CORS settings
-   - Check server logs in Vercel dashboard
+[Coming Soon]
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+[Coming Soon]
 
 ## License
 
-MIT License 
+[Coming Soon]
+
+## Contact
+
+[Coming Soon] 
