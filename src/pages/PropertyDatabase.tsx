@@ -245,6 +245,38 @@ const PropertyDatabase: React.FC = () => {
   const uniqueZonings = Array.from(new Set(properties.map(property => property.zoning)));
   const uniqueStatuses = Array.from(new Set(properties.map(property => property.status)));
 
+  // Export filtered properties to CSV
+  const handleExport = () => {
+    // Define CSV headers
+    const headers = ['ID', 'Address', 'Type', 'Size', 'Zoning', 'Score', 'Status'];
+    // Map filtered properties to rows
+    const rows = filteredProperties.map(({ id, address, type, size, zoning, score, status }) => [
+      id,
+      address,
+      type,
+      size.toString(),
+      zoning,
+      score.toString(),
+      status
+    ]);
+    // Combine headers and rows, wrapping each cell in quotes to handle commas
+    const csvContent = [headers, ...rows]
+      .map(row => row
+        .map(cell => `"${cell.replace(/"/g, '""')}"`)
+        .join(','))
+        .join('\n');
+    // Create a blob and trigger download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'properties.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <Box>
       <Heading mb={6}>Property Database</Heading>
@@ -301,7 +333,9 @@ const PropertyDatabase: React.FC = () => {
             </GridItem>
             
             <GridItem colSpan={3}>
-              <Button colorScheme="brand" mt={6} width="100%">Export</Button>
+              <Button colorScheme="brand" mt={6} width="100%" onClick={handleExport}>
+                Export CSV
+              </Button>
             </GridItem>
             
             <GridItem colSpan={6}>

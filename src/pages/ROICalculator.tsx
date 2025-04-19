@@ -117,10 +117,27 @@ const ROICalculator: React.FC = () => {
       isClosable: true,
     });
     
-    // In a real application, this would typically:
-    // 1. Call an API to generate a PDF report
-    // 2. Trigger a download of the generated report
-    // 3. Or open the report in a new tab/window
+    // Generate CSV of results
+    const csvHeaders = ['Metric','Value'];
+    const csvRows = [
+      ['Total Investment', results.totalInvestment.toString()],
+      ['Annual Revenue', results.annualRevenue.toString()],
+      ['Annual Costs', results.annualCosts.toString()],
+      ['Net Income', results.netIncome.toString()],
+      ['ROI (%)', results.roi.toFixed(1)],
+      ['Payback Period (years)', results.paybackPeriod.toFixed(1)],
+    ];
+    const csvContent = [csvHeaders, ...csvRows]
+      .map(row => row.map(cell => `"${cell.replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'roi_report.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   return (
