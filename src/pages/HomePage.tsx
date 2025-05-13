@@ -9,6 +9,7 @@ import {
   Stack,
   Icon,
   useColorModeValue,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { FiMapPin, FiList, FiZap, FiTrendingUp } from 'react-icons/fi';
@@ -37,46 +38,63 @@ const features = [
 ];
 
 const HomePage: React.FC = () => {
+  // Responsive heading size
+  const headingSize = useBreakpointValue({ base: "xl", md: "2xl" });
+  
   return (
     <Box>
       {/* Hero with Feature Overlay */}
       <Box
-        minH="100vh"
+        minH={{ base: "calc(100vh - 80px)", md: "100vh" }}
         bgGradient="linear(to-r, blue.900, purple.700)"
         color="white"
-        py={20}
+        py={{ base: 12, md: 20 }}
+        px={{ base: 4, md: 0 }}
       >
-        <Container maxW="container.lg" textAlign="center">
-          <Heading as="h1" size="2xl" mb={4}>
+        <Container maxW="container.lg" textAlign="center" pt={{ base: 10, md: 16 }}>
+          <Heading as="h1" size={headingSize} mb={{ base: 3, md: 4 }} px={{ base: 2, md: 0 }}>
             Find sites for EV charging stations in minutes
           </Heading>
-          <Text fontSize="xl" mb={6} maxW="600px" mx="auto">
+          <Text 
+            fontSize={{ base: "lg", md: "xl" }} 
+            mb={{ base: 5, md: 6 }} 
+            maxW="600px" 
+            mx="auto"
+            px={{ base: 2, md: 0 }}
+          >
             Get a list of ready-to-build locations so you can quickly start installing chargers.
           </Text>
           <Button
             as={RouterLink}
             to="/properties"
-            size="lg"
+            size={{ base: "md", md: "lg" }}
             bg="white"
             color="gray.800"
             rounded="full"
-            px={10}
-            _hover={{ bg: 'gray.100' }}
+            px={{ base: 6, md: 10 }}
+            py={{ base: 5, md: 6 }}
+            _hover={{ bg: "gray.100" }}
+            fontWeight="bold"
           >
             Get Started
           </Button>
           
           {/* Translucent Features Grid */}
           <Box
-            mt={16}
+            mt={{ base: 12, md: 16 }}
             bg="whiteAlpha.25"
             backdropFilter="blur(12px)"
-            p={10}
+            p={{ base: 6, md: 10 }}
             borderRadius="xl"
+            mx={{ base: -2, md: 0 }}
           >
-            <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={10}>
+            <SimpleGrid 
+              columns={{ base: 1, sm: 2, md: 4 }} 
+              spacing={{ base: 8, md: 10 }}
+              justifyItems="center"
+            >
               {features.map(({ icon, title, text }) => (
-                <Box key={title} textAlign="center">
+                <Box key={title} textAlign="center" maxW="200px">
                   <Box
                     display="inline-flex"
                     alignItems="center"
@@ -88,10 +106,10 @@ const HomePage: React.FC = () => {
                   >
                     <Icon as={icon} w={6} h={6} color="white" />
                   </Box>
-                  <Text fontWeight="bold" fontSize="lg" mb={2}>
+                  <Text fontWeight="bold" fontSize={{ base: "md", md: "lg" }} mb={2}>
                     {title}
                   </Text>
-                  <Text fontSize="sm" color="whiteAlpha.800">
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="whiteAlpha.800">
                     {text}
                   </Text>
                 </Box>

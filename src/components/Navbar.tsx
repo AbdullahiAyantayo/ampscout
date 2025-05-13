@@ -27,34 +27,16 @@ const Navbar: React.FC = () => {
         <Flex gap={4} align="center">
           {isHome ? (
             <>
-              <Link as={RouterLink} to="/dashboard">
-                <Button variant="ghost" color="white">Dashboard</Button>
-              </Link>
               <Link as={RouterLink} to="/properties">
-                <Button variant="ghost" color="white">Properties</Button>
-              </Link>
-              <Link as={RouterLink} to="/roi">
-                <Button variant="ghost" color="white">ROI Calculator</Button>
-              </Link>
-              <Link as={RouterLink} to="/documents">
                 <Button variant="solid" colorScheme="whiteAlpha" rounded="md">
-                  Documents
+                  Property Database
                 </Button>
               </Link>
             </>
           ) : (
             <>
-              <Link as={RouterLink} to="/dashboard">
-                <Button variant="ghost">Dashboard</Button>
-              </Link>
               <Link as={RouterLink} to="/properties">
-                <Button variant="ghost" colorScheme="brand">Properties</Button>
-              </Link>
-              <Link as={RouterLink} to="/roi">
-                <Button variant="ghost">ROI Calculator</Button>
-              </Link>
-              <Link as={RouterLink} to="/documents">
-                <Button variant="ghost">Documents</Button>
+                <Button variant="ghost" colorScheme="brand">Property Database</Button>
               </Link>
             </>
           )}
