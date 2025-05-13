@@ -6,64 +6,74 @@ import {
   Text,
   Button,
   SimpleGrid,
-  Stack,
-  Icon,
-  useColorModeValue,
   useBreakpointValue,
+  Flex,
+  VStack,
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-import { FiMapPin, FiList, FiZap, FiTrendingUp } from 'react-icons/fi';
 
 const features = [
   {
-    icon: FiMapPin,
-    title: 'Available Land',
-    text: 'Identify suitable property for EV chargers.',
+    emoji: '📍',
+    title: 'Site Selection',
+    text: 'Find optimal land for EV charging.',
   },
   {
-    icon: FiList,
-    title: 'Zoning Information',
-    text: 'Check local zonatures and restrictions.',
+    emoji: '🧾',
+    title: 'Permitting & Zoning',
+    text: 'Handle local regulations, fast.',
   },
   {
-    icon: FiZap,
-    title: 'Grid Capacity',
-    text: 'Assess electrical infrastructure availability.',
+    emoji: '🏗️',
+    title: 'Blueprints & Design',
+    text: 'Get ready-to-build architectural plans.',
   },
   {
-    icon: FiTrendingUp,
-    title: 'Demand Forecast',
-    text: 'Predict charging needs based on data.',
+    emoji: '🚧',
+    title: 'Construction-Ready',
+    text: 'Everything you need before ground-breaking',
   },
 ];
 
 const HomePage: React.FC = () => {
   // Responsive heading size
-  const headingSize = useBreakpointValue({ base: "xl", md: "2xl" });
+  const headingSize = useBreakpointValue({ base: "lg", md: "2xl" });
   
   return (
     <Box>
-      {/* Hero with Feature Overlay */}
+      {/* Hero Section */}
       <Box
-        minH={{ base: "calc(100vh - 80px)", md: "100vh" }}
-        bgGradient="linear(to-r, blue.900, purple.700)"
+        minH="100vh"
+        bgGradient="linear(to-br, #0f2347, #1e3c72, #3f5a9e)"
         color="white"
-        py={{ base: 12, md: 20 }}
+        py={{ base: 8, md: 16 }}
         px={{ base: 4, md: 0 }}
       >
         <Container maxW="container.lg" textAlign="center" pt={{ base: 10, md: 16 }}>
-          <Heading as="h1" size={headingSize} mb={{ base: 3, md: 4 }} px={{ base: 2, md: 0 }}>
-            Find sites for EV charging stations in minutes
+          {/* Main Heading */}
+          <Heading 
+            as="h1" 
+            size={headingSize} 
+            mb={{ base: 4, md: 6 }} 
+            px={{ base: 2, md: 0 }}
+            lineHeight="1.2"
+            fontWeight="bold"
+          >
+            End-to-End EV Charging Station Deployment in One Platform
           </Heading>
+          
+          {/* Subtitle */}
           <Text 
             fontSize={{ base: "lg", md: "xl" }} 
-            mb={{ base: 5, md: 6 }} 
-            maxW="600px" 
+            mb={{ base: 8, md: 12 }} 
+            maxW="800px" 
             mx="auto"
             px={{ base: 2, md: 0 }}
           >
-            Get a list of ready-to-build locations so you can quickly start installing chargers.
+            From location scouting to permit-ready plans, we help you build faster.
           </Text>
+          
+          {/* Action Button */}
           <Button
             as={RouterLink}
             to="/properties"
@@ -71,51 +81,50 @@ const HomePage: React.FC = () => {
             bg="white"
             color="gray.800"
             rounded="full"
-            px={{ base: 6, md: 10 }}
+            px={{ base: 6, md: 8 }}
             py={{ base: 5, md: 6 }}
             _hover={{ bg: "gray.100" }}
             fontWeight="bold"
+            mb={{ base: 12, md: 16 }}
           >
-            Get Started
+            Start Building
           </Button>
           
-          {/* Translucent Features Grid */}
-          <Box
-            mt={{ base: 12, md: 16 }}
-            bg="whiteAlpha.25"
-            backdropFilter="blur(12px)"
-            p={{ base: 6, md: 10 }}
-            borderRadius="xl"
-            mx={{ base: -2, md: 0 }}
+          {/* Features Grid */}
+          <SimpleGrid 
+            columns={{ base: 1, sm: 2, md: 4 }} 
+            spacing={{ base: 10, md: 0 }}
+            justifyItems="center"
+            mt={{ base: 12, md: 20 }}
           >
-            <SimpleGrid 
-              columns={{ base: 1, sm: 2, md: 4 }} 
-              spacing={{ base: 8, md: 10 }}
-              justifyItems="center"
-            >
-              {features.map(({ icon, title, text }) => (
-                <Box key={title} textAlign="center" maxW="200px">
-                  <Box
-                    display="inline-flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    bg="whiteAlpha.300"
-                    p={4}
-                    borderRadius="full"
-                    mb={4}
-                  >
-                    <Icon as={icon} w={6} h={6} color="white" />
-                  </Box>
-                  <Text fontWeight="bold" fontSize={{ base: "md", md: "lg" }} mb={2}>
-                    {title}
-                  </Text>
-                  <Text fontSize={{ base: "xs", md: "sm" }} color="whiteAlpha.800">
-                    {text}
-                  </Text>
-                </Box>
-              ))}
-            </SimpleGrid>
-          </Box>
+            {features.map(({ emoji, title, text }) => (
+              <VStack key={title} spacing={3} maxW="250px">
+                <Flex
+                  alignItems="center"
+                  justifyContent="center"
+                  bg="whiteAlpha.200"
+                  w={{ base: "60px", md: "70px" }}
+                  h={{ base: "60px", md: "70px" }}
+                  borderRadius="full"
+                  mb={2}
+                >
+                  <Text fontSize="3xl">{emoji}</Text>
+                </Flex>
+                <Heading 
+                  fontSize={{ base: "md", md: "lg" }} 
+                  fontWeight="semibold"
+                >
+                  {title}
+                </Heading>
+                <Text 
+                  fontSize={{ base: "sm", md: "md" }} 
+                  color="whiteAlpha.900"
+                >
+                  {text}
+                </Text>
+              </VStack>
+            ))}
+          </SimpleGrid>
         </Container>
       </Box>
     </Box>

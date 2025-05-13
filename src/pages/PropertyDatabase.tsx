@@ -80,6 +80,9 @@ interface PropertyDetail extends Property {
   recommendedOption?: string;
   savingsEstimate?: number;
   timeSavings?: number;
+  level1ToLevel2Cost?: number;
+  level1ToDCCost?: number;
+  level2ToDCCost?: number;
 }
 
 // New interface for permit proposal
@@ -124,7 +127,10 @@ const sampleProperties: PropertyDetail[] = [
       level2: true,
       dcFast: true,
       maxChargers: 8
-    }
+    },
+    level1ToLevel2Cost: 0,
+    level1ToDCCost: 0,
+    level2ToDCCost: 0
   },
   {
     id: '2',
@@ -146,7 +152,10 @@ const sampleProperties: PropertyDetail[] = [
       level2: true,
       dcFast: true,
       maxChargers: 15
-    }
+    },
+    level1ToLevel2Cost: 0,
+    level1ToDCCost: 0,
+    level2ToDCCost: 0
   },
   {
     id: '3',
@@ -174,7 +183,10 @@ const sampleProperties: PropertyDetail[] = [
     upgradeDuration: 45,
     recommendedOption: 'Level 2 chargers only (no upgrade required)',
     savingsEstimate: 35000,
-    timeSavings: 45
+    timeSavings: 45,
+    level1ToLevel2Cost: 0,
+    level1ToDCCost: 35000,
+    level2ToDCCost: 35000
   },
   {
     id: '4',
@@ -246,7 +258,10 @@ const sampleProperties: PropertyDetail[] = [
     upgradeDuration: 20,
     recommendedOption: 'Level 1 chargers only (no upgrade required)',
     savingsEstimate: 15000,
-    timeSavings: 20
+    timeSavings: 20,
+    level1ToLevel2Cost: 15000,
+    level1ToDCCost: 50000,
+    level2ToDCCost: 35000
   },
   {
     id: '7',
@@ -273,7 +288,10 @@ const sampleProperties: PropertyDetail[] = [
     upgradeDuration: 60,
     recommendedOption: 'Level 2 chargers (no upgrade required)',
     savingsEstimate: 40000,
-    timeSavings: 60
+    timeSavings: 60,
+    level1ToLevel2Cost: 0,
+    level1ToDCCost: 40000,
+    level2ToDCCost: 40000
   },
   {
     id: '8',
@@ -299,9 +317,12 @@ const sampleProperties: PropertyDetail[] = [
     },
     upgradeCost: 22000,
     upgradeDuration: 30,
-    recommendedOption: 'Level 1 chargers only (no upgrade required)',
+    recommendedOption: 'Level 1 chargers only (limited capacity)',
     savingsEstimate: 22000,
-    timeSavings: 30
+    timeSavings: 30,
+    level1ToLevel2Cost: 22000,
+    level1ToDCCost: 60000,
+    level2ToDCCost: 38000
   },
   {
     id: '9',
@@ -1610,6 +1631,30 @@ const PropertyDatabase: React.FC = () => {
       proposal.estimatedTimeline += 20; // Add time for grid upgrades
       proposal.notes += ' This property requires electrical service upgrades, adding complexity and time to the permitting process.';
     }
+    
+    // Add charging level upgrade information
+    if ((property.evChargerSupport.level1 && !property.evChargerSupport.level2 && property.level1ToLevel2Cost) ||
+        (!property.evChargerSupport.dcFast && property.level2ToDCCost)) {
+      
+      let upgradeNotes = ' EV charging level upgrade options: ';
+      
+      if (property.evChargerSupport.level1 && !property.evChargerSupport.level2 && property.level1ToLevel2Cost) {
+        upgradeNotes += `Level 1 to Level 2 ($${property.level1ToLevel2Cost.toLocaleString()}), `;
+      }
+      
+      if (property.evChargerSupport.level1 && !property.evChargerSupport.dcFast && property.level1ToDCCost) {
+        upgradeNotes += `Level 1 to DC Fast ($${property.level1ToDCCost.toLocaleString()}), `;
+      }
+      
+      if (property.evChargerSupport.level2 && !property.evChargerSupport.dcFast && property.level2ToDCCost) {
+        upgradeNotes += `Level 2 to DC Fast ($${property.level2ToDCCost.toLocaleString()}), `;
+      }
+      
+      // Remove the trailing comma and space
+      upgradeNotes = upgradeNotes.slice(0, -2) + '.';
+      
+      proposal.notes += upgradeNotes;
+    }
 
     setPermitProposal(proposal);
     onPermitOpen();
@@ -2225,6 +2270,13 @@ const PropertyDatabase: React.FC = () => {
                           {selectedProperty.evChargerSupport.level2 ? 'Compatible' : 'Not Compatible'}
                         </Badge>
                       </StatNumber>
+                      {selectedProperty.evChargerSupport.level1 && !selectedProperty.evChargerSupport.level2 && selectedProperty.level1ToLevel2Cost && (
+                        <StatHelpText>
+                          <Text color="orange.500" fontSize="sm">
+                            Upgrade Cost: ${selectedProperty.level1ToLevel2Cost.toLocaleString()}
+                          </Text>
+                        </StatHelpText>
+                      )}
                     </Stat>
                   </Box>
                   <Box>
@@ -2235,6 +2287,20 @@ const PropertyDatabase: React.FC = () => {
                           {selectedProperty.evChargerSupport.dcFast ? 'Compatible' : 'Not Compatible'}
                         </Badge>
                       </StatNumber>
+                      {!selectedProperty.evChargerSupport.dcFast && (
+                        <StatHelpText>
+                          {selectedProperty.evChargerSupport.level1 && !selectedProperty.evChargerSupport.level2 && selectedProperty.level1ToDCCost && (
+                            <Text color="orange.500" fontSize="sm">
+                              Upgrade from L1: ${selectedProperty.level1ToDCCost.toLocaleString()}
+                            </Text>
+                          )}
+                          {selectedProperty.evChargerSupport.level2 && selectedProperty.level2ToDCCost && (
+                            <Text color="orange.500" fontSize="sm">
+                              Upgrade from L2: ${selectedProperty.level2ToDCCost.toLocaleString()}
+                            </Text>
+                          )}
+                        </StatHelpText>
+                      )}
                     </Stat>
                   </Box>
                   <Box>
@@ -2244,6 +2310,40 @@ const PropertyDatabase: React.FC = () => {
                     </Stat>
                   </Box>
                 </SimpleGrid>
+                
+                {(selectedProperty.level1ToLevel2Cost !== undefined || 
+                  selectedProperty.level2ToDCCost !== undefined || 
+                  selectedProperty.level1ToDCCost !== undefined) && (
+                  <Box p={3} bg="blue.50" borderRadius="md" mt={2} mb={2}>
+                    <Heading size="sm" mb={2}>Charging Level Upgrade Summary</Heading>
+                    <List spacing={1}>
+                      {selectedProperty.evChargerSupport.level1 && !selectedProperty.evChargerSupport.level2 && selectedProperty.level1ToLevel2Cost !== undefined && (
+                        <ListItem>
+                          <HStack>
+                            <Icon as={FiRefreshCw} color="blue.500" />
+                            <Text><Text as="span" fontWeight="bold">Level 1 to Level 2:</Text> ${selectedProperty.level1ToLevel2Cost.toLocaleString()}</Text>
+                          </HStack>
+                        </ListItem>
+                      )}
+                      {selectedProperty.evChargerSupport.level1 && !selectedProperty.evChargerSupport.dcFast && selectedProperty.level1ToDCCost !== undefined && (
+                        <ListItem>
+                          <HStack>
+                            <Icon as={FiRefreshCw} color="purple.500" />
+                            <Text><Text as="span" fontWeight="bold">Level 1 to DC Fast:</Text> ${selectedProperty.level1ToDCCost.toLocaleString()}</Text>
+                          </HStack>
+                        </ListItem>
+                      )}
+                      {selectedProperty.evChargerSupport.level2 && !selectedProperty.evChargerSupport.dcFast && selectedProperty.level2ToDCCost !== undefined && (
+                        <ListItem>
+                          <HStack>
+                            <Icon as={FiRefreshCw} color="purple.500" />
+                            <Text><Text as="span" fontWeight="bold">Level 2 to DC Fast:</Text> ${selectedProperty.level2ToDCCost.toLocaleString()}</Text>
+                          </HStack>
+                        </ListItem>
+                      )}
+                    </List>
+                  </Box>
+                )}
                 
                 {selectedProperty.gridInfo.needsUpgrade && (
                   <>
