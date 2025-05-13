@@ -1,4 +1,4 @@
-# AmpScout - EV Charger Site Selection Platform
+# AmpScout - End-to-End EV Charging Station Deployment
 
 AmpScout is a data-driven platform that identifies and analyzes optimal locations for electric vehicle charging stations based on property characteristics, grid readiness, and ROI potential.
 
